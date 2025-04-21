@@ -1,0 +1,2077 @@
+
+<!DOCTYPE html>
+<html><head><base href="https://enhanced-survival-shooter-v3.example.com/"/><meta charset="utf-8"/><title>Quantio by Calzsan: Jogo de Sobrevivência</title><style>body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background-color:#111;font-family:Arial,sans-serif;color:#fff}#loadingScreen{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#1a1a2e;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999}.loader{border:5px solid #f3f3f3;border-top:5px solid #16213e;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}#nameInputScreen{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;box-shadow:0 10px 20px rgba(0,0,0,.2);border-radius:15px;max-width:400px;margin:50px auto}#playerNameInput{margin:20px 0;padding:10px;font-size:18px;width:100%;max-width:300px}#submitName{font-size:18px;padding:10px 20px;background-color:#4caf50;color:#fff;border:none;border-radius:5px;cursor:pointer}#lobby{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;box-shadow:0 10px 20px rgba(0,0,0,.2);border-radius:15px;max-width:800px;margin:50px auto}.game-title{font-size:48px;font-weight:700;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.5);margin-bottom:20px}.game-subtitle{font-size:24px;color:#ddd;margin-bottom:40px}#playerNameDisplay{font-size:18px;color:#fff;margin-bottom:20px}.stats-container{display:flex;justify-content:space-around;width:100%;margin-bottom:40px}.stat-item{background-color:rgba(255,255,255,.1);padding:15px 25px;border-radius:10px;text-align:center;transition:transform .3s ease}.stat-item:hover{transform:translateY(-5px)}.stat-value{font-size:24px;font-weight:700;color:#fff}.stat-label{font-size:14px;color:#ddd}.menu-container{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;width:100%}.menu-item{font-size:18px;padding:15px 30px;background:linear-gradient(45deg,#ff6b6b,#feca57);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;text-align:center;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px}.menu-item:hover{transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,.3)}#gameCanvas{width:100%;height:100%;display:none}#healthBar{position:absolute;top:10px;left:10px;width:200px;height:20px;background-color:#333;border:2px solid #fff;display:none}#healthFill{width:100%;height:100%;background-color:#0f0;transition:width .3s}#timerDisplay{position:absolute;top:10px;right:10px;font-size:24px;display:none}#gameOverScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}#gameOverMessage{font-size:48px;margin-bottom:20px}#trophyChange{font-size:24px;margin-bottom:20px}#returnToLobby{font-size:24px;padding:10px 20px;background-color:#444;border-radius:5px;cursor:pointer}#leaguesScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}#leaguesList{list-style-type:none;padding:0;margin:20px 0}#leaguesList li{font-size:18px;margin:10px 0}#shopScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px;margin:0 auto}#moneyDisplay{font-size:24px;margin-bottom:20px}.shop-item{background:linear-gradient(135deg,#3494e6,#ec6ead);border-radius:10px;padding:15px;text-align:center;transition:transform .3s ease,box-shadow .3s ease,opacity .3s ease}.shop-item:hover{transform:translateY(-5px);box-shadow:0 5px 15px rgba(0,0,0,.3)}.shop-item-name{font-size:18px;font-weight:700;margin-bottom:10px}.shop-item-cost{font-size:16px}#eventScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}#exportImportScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}#exportImportCode{margin:20px 0;padding:10px;font-size:16px;width:80%;max-width:600px}#exportAccountButton,#exportMoneyButton,#importButton{font-size:18px;padding:10px 20px;margin:10px;background-color:#4caf50;color:#fff;border:none;border-radius:5px;cursor:pointer}#statisticsScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}#chestRewardsScreen{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}.chest{width:100px;height:100px;background-color:#8b4513;border:2px solid #d2691e;margin:10px;display:flex;justify-content:center;align-items:center;cursor:pointer;font-weight:700;color:gold}.chest.locked{background-color:#a9a9a9;cursor:not-allowed}#chestContainer{display:flex;justify-content:space-around;width:100%;max-width:600px}.contact-info{margin-top:20px;padding:10px;background-color:rgba(255,255,255,.1);border-radius:5px;text-align:center}.contact-info p{margin:5px 0}#shopItems h3{color:#fff;text-align:center;margin-top:20px;margin-bottom:10px}</style></head><body>
+<div id="loadingScreen">
+  <div class="loader-modern">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+    <p class="loading-text">⚔️ Sincronizando o campo de batalha...</p>
+  </div>
+</div>
+<style>
+  #loadingScreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at top, #0f0c29, #302b63, #24243e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    overflow: hidden;
+  }
+
+  .loader-modern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .progress-bar {
+    width: 300px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    margin-bottom: 20px;
+  }
+
+  .progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+    animation: fillProgress 4s ease-in-out forwards;
+  }
+
+  .loading-text {
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    animation: blinkText 1.5s infinite;
+  }
+
+  @keyframes fillProgress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  @keyframes blinkText {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+<div id="nameInputScreen" style="display:none"><h2>Bem-vindo ao Quantio!</h2><p>Por favor, insira seu nome:</p><input id="playerNameInput" maxlength="20" type="text"/><button id="submitName">Confirmar</button></div><div id="lobby" style="max-width:800px;background:linear-gradient(90deg,#2c3e50,#34495e,#3a6073);border-radius:20px;box-shadow:0 15px 30px rgba(0,0,0,.3);padding:30px;margin:30px auto;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center">
+<div class="novidades-button" style="width:100%;margin-bottom:20px;text-align:center">
+<button onclick="const updates = `🎮 Atualizações Recentes:
+        ═══════════════════════
+
+        🔥 TEMPORADA 2 • CASTIGOS
+
+        • Modo Desafio Infernal
+        • Sistema de Penalidades Ativas
+        • Novo Inimigo: Carrasco Sombrio
+        • Castigo Aleatório a Cada Derrota
+        • Baú de Redenção: Só abre após 3 vitórias seguidas
+
+        ✨ Melhorias Gerais
+        • Novo Tema Visual Noturno
+        • Animações mais fluídas
+        • Correções de bugs e otimizações`;
+`
+        🎮 Atualizações Recentes:
+        ═══════════════════════
+        
+        ✨ Sistema de Conta
+        • Exportar e Importar Conta
+        • Exportar e Importar Recursos
+        • Backup Automático
+        
+        🎨 Interface do Usuário
+        • Design Totalmente Renovado
+        • Animações Suaves
+        • Efeitos Visuais Melhorados
+        
+        🎁 Sistema de Recompensas
+        • Recompensa Diária Aprimorada
+        • Baús com Prêmios Especiais
+        • Bônus por Sequência de Vitórias
+        
+        📊 Estatísticas e Progresso
+        • Histórico Detalhado
+        • Conquistas Desbloqueáveis
+        • Sistema de Níveis
+        
+        🎯 Próxima Atualização:
+        ═══════════════════════
+        
+        🌐 Modo Multiplayer
+        • Jogue com Amigos (LAN)
+        • Ranking Local
+        • Chat em Tempo Real
+        
+        ⚔️ Novos Conteúdos
+        • Novos Tipos de Inimigos
+        • Habilidades Especiais
+        • Eventos Temáticos
+      `;
+      
+      const modalStyle = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.95));
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        font-family: 'Courier New', monospace;
+        color: #fff;
+        border: 2px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        white-space: pre-line;
+        line-height: 1.6;
+        z-index: 1000;
+      `;
+      
+      const modal = document.createElement('div');
+      modal.style.cssText = modalStyle;
+      modal.innerHTML = updates;
+      
+      const closeButton = document.createElement('button');
+      closeButton.innerHTML = '✖';
+      closeButton.style.cssText = `
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 5px;
+        transition: transform 0.3s;
+      `;
+      closeButton.onmouseover = () =&gt; closeButton.style.transform = 'scale(1.2)';
+      closeButton.onmouseout = () =&gt; closeButton.style.transform = 'scale(1)';
+      closeButton.onclick = () =&gt; modal.remove();
+      
+      modal.appendChild(closeButton);
+      document.body.appendChild(modal);
+    " style="
+      font-size: 24px;
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+      border: none;
+      border-radius: 15px;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    ">
+      🎯 NOVIDADES 🎯
+      <span style="
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: #f1c40f;
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+        transform: rotate(15deg);
+        animation: bounce 1s infinite;
+      ">NOVO!</span>
+<style>
+        @keyframes bounce {
+          0%, 100% { transform: rotate(15deg) translateY(0); }
+          50% { transform: rotate(15deg) translateY(-5px); }
+        }
+      </style>
+</button>
+<style>
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+    </style>
+</div>
+<h1 class="game-title"><span style="display:inline-block;transform:skew(-15deg,0deg);text-shadow:2px 2px 4px rgba(0,0,0,.5),0 0 10px rgba(255,255,255,.3);color:#fff;font-family:'Arial Black',sans-serif;letter-spacing:2px;padding:10px 20px;border:3px solid #2980b9;border-radius:10px;box-shadow:0 5px 15px rgba(41,128,185,.4)">Q<span style="font-size:1.2em;vertical-align:middle">U</span>ANT<span style="font-size:1.2em;vertical-align:middle">I</span>O
+<div style="
+    font-size: 0.4em;
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    animation: glowPurple 2s ease-in-out infinite;
+    border: 1px solid rgba(255,255,255,0.3);
+    white-space: nowrap;
+    position: relative;
+    transform: translateY(-10px);
+">TEMPORADA 2 • CASTIGOS<style>
+        @keyframes glowPurple {
+            0% { box-shadow: 0 0 5px rgba(155,89,182,0.5); }
+            50% { box-shadow: 0 0 20px rgba(155,89,182,0.8); }
+            100% { box-shadow: 0 0 5px rgba(155,89,182,0.5); }
+        }
+    </style>
+</div>
+<style>
+    @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(241,196,15,0.5); }
+        50% { box-shadow: 0 0 20px rgba(241,196,15,0.8); }
+        100% { box-shadow: 0 0 5px rgba(241,196,15,0.5); }
+    }
+</style>
+</span></h1><h2 class="game-subtitle"><span style="background:linear-gradient(45deg,#3498db,#2980b9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:Montserrat,sans-serif;font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border:2px solid #2980b9;border-radius:50px;box-shadow:0 5px 15px rgba(41,128,185,.3);display:inline-block;transition:all .3s ease">by Calzsan</span></h2><div id="playerNameDisplay" style="font-size:22px;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.7);margin:20px 0;padding:10px 20px;background:linear-gradient(135deg,rgba(52,152,219,.7),rgba(41,128,185,.7));border-radius:50px;box-shadow:0 4px 6px rgba(0,0,0,.1);display:inline-block;transition:all .3s ease;font-family:Arial,sans-serif;font-weight:700;letter-spacing:1px;border:2px solid rgba(255,255,255,.3);backdrop-filter:blur(5px)"><span style="background:-webkit-linear-gradient(45deg,#fff,#6dd5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent"></span></div><div class="stats-container" style="display:flex;justify-content:space-around;background:linear-gradient(135deg,rgba(52,152,219,.5),rgba(41,128,185,.5));border-radius:20px;padding:20px;margin-bottom:30px;width:100%;box-shadow:0 10px 20px rgba(0,0,0,.2);backdrop-filter:blur(5px);border:2px solid rgba(255,255,255,.1)"><div class="stat-item" style="text-align:center;background:rgba(255,255,255,.2);padding:15px;border-radius:15px;transition:all .3s ease;border:2px solid #000"><div class="stat-value" id="trophyCount" style="font-size:28px;font-weight:700;color:#f1c40f;text-shadow:2px 2px 4px rgba(0,0,0,.5),-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;margin-bottom:5px">0</div><div class="stat-label" style="font-size:16px;color:#ecf0f1;text-transform:uppercase;letter-spacing:1px">Troféus</div><svg height="40" style="margin-top:10px" viewbox="0 0 24 24" width="40"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z" fill="#f1c40f" stroke="#000000" stroke-width="2"></path></svg></div><div class="stat-item" style="text-align:center;background:rgba(255,255,255,.2);padding:15px;border-radius:15px;transition:all .3s ease;border:2px solid #000"><div class="stat-value" id="leagueInfo" style="font-size:28px;font-weight:700;color:#1a5f9e;text-shadow:2px 2px 4px rgba(0,0,0,.5),-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;margin-bottom:5px">Sem Liga</div><div class="stat-label" style="font-size:16px;color:#ecf0f1;text-transform:uppercase;letter-spacing:1px">Liga</div><svg height="40" style="margin-top:10px" viewbox="0 0 24 24" width="40"><path d="M20.2,2H19.5H18C17.1,2 16,3 16,4H8C8,3 6.9,2 6,2H4.5H3.8H2V11C2,12 3,13 4,13H6.2C6.6,15 7.9,16.7 11,17V19.1C8.8,19.3 8,20.4 8,21.7V22H16V21.7C16,20.4 15.2,19.3 13,19.1V17C16.1,16.7 17.4,15 17.8,13H20C21,13 22,12 22,11V2H20.2M4,11V4H6V6V11C5.1,11 4.3,11 4,11M20,11C19.7,11 18.9,11 18,11V6V4H20V11Z" fill="#3498db" stroke="#000000" stroke-width="2"></path></svg></div><div class="stat-item" style="text-align:center;background:rgba(255,255,255,.2);padding:15px;border-radius:15px;transition:all .3s ease;border:2px solid #000"><div class="stat-value" id="moneyCount" style="font-size:28px;font-weight:700;color:#2ecc71;text-shadow:2px 2px 4px rgba(0,0,0,.5),-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;margin-bottom:5px">0</div><div class="stat-label" style="font-size:16px;color:#ecf0f1;text-transform:uppercase;letter-spacing:1px">Moedas</div><svg height="40" style="margin-top:10px" viewbox="0 0 24 24" width="40"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A1,1 0 0,1 9,12V9A1,1 0 0,1 10,8H11V7H13V8H15V10H11V11H14A1,1 0 0,1 15,12V15A1,1 0 0,1 14,16H13V17H11Z" fill="#2ecc71" stroke="#000000" stroke-width="1"></path></svg></div></div><div class="menu-container" style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;width:100%"><button class="menu-item" id="startGame" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#3498db,#2980b9);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Iniciar Jogo</button><button class="menu-item" id="showEvents" onclick="showAchievementsScreen()" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#4CAF50,#2E7D32);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Conquistas
+<script>
+// Sistema de conquistas
+const achievements = {
+  'novato': {
+    title: 'Novato',
+    description: 'Alcance a Liga Paia',
+    reward: 100,
+    league: 'Liga Paia',
+    claimed: false
+  },
+  'determinado': {
+    title: 'Determinado', 
+    description: 'Alcance a Liga Rebelde',
+    reward: 200,
+    league: 'Rebelde',
+    claimed: false
+  },
+  'promissor': {
+    title: 'Promissor',
+    description: 'Alcance a Liga Candidato',
+    reward: 300,
+    league: 'Candidato', 
+    claimed: false
+  },
+  'veterano': {
+    title: 'Veterano',
+    description: 'Alcance a Liga Patrão',
+    reward: 400,
+    league: 'Patrão',
+    claimed: false
+  },
+  'lendario': {
+    title: 'Lendário',
+    description: 'Alcance a Liga Soberana',
+    reward: 500,
+    league: 'Soberana',
+    claimed: false
+  },
+  'divino': {
+    title: 'Divino',
+    description: 'Alcance a Liga Estrelar',
+    reward: 600,
+    league: 'Estrelar',
+    claimed: false
+  },
+  'imortal': {
+    title: 'Imortal',
+    description: 'Alcance a Liga Maior Campeão',
+    reward: 700,
+    league: 'Liga Maior Campeão',
+    claimed: false
+  },
+  'celestial': {
+    title: 'Celestial',
+    description: 'Alcance a Liga Celeste',
+    reward: 800,
+    league: 'Celeste',
+    claimed: false
+  }
+};
+
+// Carregar estado das conquistas do localStorage
+function loadAchievements() {
+  const savedAchievements = localStorage.getItem('quantioAchievements');
+  if (savedAchievements) {
+    Object.assign(achievements, JSON.parse(savedAchievements));
+  }
+}
+
+// Salvar estado das conquistas no localStorage
+function saveAchievements() {
+  localStorage.setItem('quantioAchievements', JSON.stringify(achievements));
+}
+
+// Função para mostrar tela de conquistas
+function showAchievementsScreen() {
+  loadAchievements(); // Carrega o estado atual das conquistas
+  
+  lobby.style.display = 'none';
+  
+  // Criar/mostrar tela de conquistas se não existir
+  let achievementsScreen = document.getElementById('achievementsScreen');
+  if (!achievementsScreen) {
+    achievementsScreen = document.createElement('div');
+    achievementsScreen.id = 'achievementsScreen';
+    achievementsScreen.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.95));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      overflow-y: auto;
+      z-index: 1000;
+    `;
+    
+    // Título
+    const title = document.createElement('h2');
+    title.textContent = 'Conquistas';
+    title.style.cssText = `
+      font-size: 36px;
+      color: #f1c40f;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    `;
+    achievementsScreen.appendChild(title);
+    
+    // Container para as conquistas
+    const achievementsContainer = document.createElement('div');
+    achievementsContainer.style.cssText = `
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+    `;
+    
+    // Adicionar cada conquista
+    Object.entries(achievements).forEach(([key, achievement]) => {
+      const achievementCard = document.createElement('div');
+      achievementCard.style.cssText = `
+        background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        border-radius: 15px;
+        padding: 20px;
+        border: 2px solid ${achievement.claimed ? '#4CAF50' : '#666'};
+        transition: transform 0.3s ease;
+      `;
+      
+      achievementCard.innerHTML = `
+        <h3 style="color: #f1c40f; margin-bottom: 10px;">${achievement.title}</h3>
+        <p style="color: #fff; margin-bottom: 15px;">${achievement.description}</p>
+        <p style="color: #4CAF50;">Recompensa: ${achievement.reward} moedas</p>
+        ${achievement.claimed ? 
+          '<span style="color: #4CAF50;">✓ Resgatado</span>' : 
+          '<button onclick="claimAchievement(\'' + key + '\')" style="background: #4CAF50; border: none; padding: 8px 16px; border-radius: 5px; color: white; cursor: pointer;">Resgatar</button>'
+        }
+      `;
+      
+      achievementsContainer.appendChild(achievementCard);
+    });
+    
+    achievementsScreen.appendChild(achievementsContainer);
+    
+    // Botão voltar
+    const backButton = document.createElement('button');
+    backButton.textContent = 'Voltar ao Lobby';
+    backButton.style.cssText = `
+      margin-top: 30px;
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #3498db, #2980b9);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    `;
+    backButton.onclick = () => {
+      achievementsScreen.style.display = 'none';
+      lobby.style.display = 'flex';
+    };
+    achievementsScreen.appendChild(backButton);
+    
+    document.body.appendChild(achievementsScreen);
+  } else {
+    achievementsScreen.style.display = 'flex';
+  }
+}
+
+// Função para resgatar conquista
+function claimAchievement(achievementKey) {
+  const achievement = achievements[achievementKey];
+  const currentLeague = leagueInfoElement.textContent.split(': ')[1].split(' (')[0];
+  
+  if (currentLeague === achievement.league && !achievement.claimed) {
+    money += achievement.reward;
+    achievement.claimed = true;
+    updateMoneyCount();
+    saveAchievements(); // Salva o estado das conquistas
+    saveGameState();
+    alert(`Parabéns! Você recebeu ${achievement.reward} moedas por conquistar "${achievement.title}"!`);
+    showAchievementsScreen(); // Atualiza a tela
+  } else if (achievement.claimed) {
+    alert('Você já resgatou esta conquista!');
+  } else {
+    alert('Você ainda não alcançou a liga necessária para esta conquista!');
+  }
+}
+
+// Carregar as conquistas quando o jogo iniciar
+window.addEventListener('load', loadAchievements);
+</script></button><button class="menu-item" id="showShop" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#2ecc71,#27ae60);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Loja</button><button class="menu-item" id="showLeagues" style="
+  font-size: 16px;
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #f39c12, #d35400);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.11"></path>
+<path d="M15 7a3 3 0 1 0-6 0c0 1.77-.91 3.37-2 4.5a3 3 0 0 0 2 5.24h6a3 3 0 0 0 2-5.24C15.91 10.37 15 8.77 15 7z"></path>
+</svg>
+  Ligas
+  <div style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+  "></div>
+<style>
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+    
+    #showLeagues:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(243,156,18,0.4);
+      background: linear-gradient(45deg, #e67e22, #d35400);
+    }
+    
+    #showLeagues:active {
+      transform: translateY(1px) scale(0.98);
+    }
+  </style>
+</button><button class="menu-item" id="showStatistics" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#9b59b6,#8e44ad);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Estatísticas</button><button class="menu-item" id="showExportImport" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#e74c3c,#c0392b);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Exportar/Importar</button><button class="menu-item" id="claimDailyReward" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#1abc9c,#16a085);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Recompensa Diária</button><button class="menu-item" id="showChestRewards" style="font-size:16px;padding:12px 20px;background:linear-gradient(45deg,#e67e22,#d35400);border:none;border-radius:25px;cursor:pointer;transition:all .3s ease;color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 5px 15px rgba(0,0,0,.2)">Recompensas de Baús</button></div><button class="menu-item" onclick="alert(`📅 Temporadas:
+
+• Temporada 1: Talentos
+• Temporada 2: Castigos
+• (novas em breve...)`);" style="background: linear-gradient(45deg, #8e44ad, #9b59b6);">Ver Temporadas</button></div><div id="leaguesScreen" style="display:none"><h2 style="font-size:36px;color:#f1c40f;text-shadow:2px 2px 4px rgba(0,0,0,.5);margin-bottom:20px;background:linear-gradient(45deg,#3498db,#2980b9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;padding:10px 20px;border:2px solid #2980b9;border-radius:10px;display:inline-block;transform:skew(-5deg)">Ligas e Troféus</h2><ul id="leaguesList"></ul><div class="menu-item" id="returnFromLeagues">Voltar ao Lobby</div></div><div id="shopScreen" style="display:none"><h2>Loja</h2><div id="moneyDisplay"></div><div class="shop-grid" id="shopItems" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:20px;background:linear-gradient(135deg,rgba(41,128,185,.1),rgba(52,152,219,.1));border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1)"><style>.shop-grid h3{grid-column:1/-1;text-align:center;font-size:24px;color:#ecf0f1;text-shadow:2px 2px 4px rgba(0,0,0,.3);margin-bottom:20px;padding:10px;background:linear-gradient(45deg,#3498db,#2980b9);border-radius:10px;box-shadow:0 5px 15px rgba(52,152,219,.3)}.shop-item{background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.05));border-radius:15px;padding:20px;text-align:center;transition:all .3s ease;box-shadow:0 8px 20px rgba(0,0,0,.1);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px)}.shop-item:hover{transform:translateY(-5px);box-shadow:0 12px 25px rgba(0,0,0,.2)}.shop-item-name{font-size:18px;font-weight:700;color:#ecf0f1;margin-bottom:10px}.shop-item-cost{font-size:16px;color:#3498db;font-weight:700}.contact-info{grid-column:1/-1;background:linear-gradient(135deg,rgba(41,128,185,.2),rgba(52,152,219,.2));padding:15px;border-radius:10px;margin-top:20px;text-align:center;box-shadow:0 5px 15px rgba(0,0,0,.1)}.contact-info p{margin:5px 0;color:#ecf0f1;font-size:16px}</style></div><div class="menu-item" id="returnFromShop">Voltar ao Lobby</div></div><div id="eventScreen" style="display:none">
+<div style="
+    background: linear-gradient(135deg, rgba(41,128,185,0.9), rgba(52,152,219,0.9));
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    border: 2px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+  ">
+<h2 style="
+      font-size: 36px;
+      color: #f1c40f;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      margin-bottom: 30px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    ">Evento Especial</h2>
+<div style="
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #fff;
+      font-size: 18px;
+    ">
+<p>Sobreviva por 60 segundos em cada partida! Complete 9 vitórias antes de 3 derrotas para ganhar o torneio.</p>
+<div style="
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(241,196,15,0.2);
+        border-radius: 10px;
+        font-weight: bold;
+      ">
+        Prêmio: 1500 moedas e um distintivo exclusivo de campeão do evento!
+      </div>
+</div>
+<div style="
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+      font-size: 24px;
+      color: #fff;
+    ">
+<div>
+<span>Vitórias: </span>
+<span id="eventWins" style="color: #2ecc71; font-weight: bold;">0</span>
+<span>/9</span>
+</div>
+<div>
+<span>Derrotas: </span>
+<span id="eventLosses" style="color: #e74c3c; font-weight: bold;">0</span>
+<span>/3</span>
+</div>
+</div>
+<div style="
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    ">
+<button id="startEvent" onclick="
+  alert('⚠️ Evento em Manutenção!\n\nO evento especial está temporariamente indisponível para ajustes e melhorias.\n\nVoltaremos em breve com novidades!');
+" style="
+  padding: 15px 30px;
+  font-size: 18px;
+  background: linear-gradient(45deg, #808080, #666666);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: not-allowed;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(128,128,128,0.3);
+  opacity: 0.7;
+">Em Manutenção</button>
+<button id="returnFromEvent" style="
+        padding: 15px 30px;
+        font-size: 18px;
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+        border: none;
+        border-radius: 50px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(231,76,60,0.3);
+      ">Voltar ao Lobby</button>
+</div>
+</div>
+</div><div id="exportImportScreen" style="display:none"><h2 style="font-size:36px;color:#f1c40f;text-shadow:2px 2px 4px rgba(0,0,0,.5);margin-bottom:30px;background:linear-gradient(45deg,#3498db,#2980b9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;padding:15px 30px;border:3px solid #2980b9;border-radius:15px;display:inline-block;transform:skew(-5deg);box-shadow:0 10px 20px rgba(0,0,0,.2);font-family:'Arial Black',sans-serif;letter-spacing:2px;text-transform:uppercase;position:relative;overflow:hidden">Exportar/Importar Dados<span style="position:absolute;top:-10px;right:-10px;width:30px;height:30px;background:#e74c3c;transform:rotate(45deg)"></span></h2><div style="display:flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,rgba(41,128,185,.7),rgba(52,152,219,.7));padding:20px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,.2);margin-bottom:20px"><input id="moneyExportCode" placeholder="Código para exportar moedas" style="width:100%;max-width:300px;padding:12px;margin-bottom:15px;border:none;border-radius:8px;font-size:16px;background-color:rgba(255,255,255,.9);color:#333;transition:all .3s ease" type="text"/><button id="exportMoneyButton" style="padding:12px 24px;background:linear-gradient(45deg,#27ae60,#2ecc71);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:1px;box-shadow:0 4px 6px rgba(0,0,0,.1)">Exportar Moedas</button></div><div style="background:linear-gradient(135deg,rgba(41,128,185,.7),rgba(52,152,219,.7));padding:20px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,.2);margin-bottom:20px;display:flex;flex-direction:column;align-items:center"><input id="accountExportCode" placeholder="Código para exportar conta" style="width:100%;max-width:300px;padding:12px;margin-bottom:15px;border:none;border-radius:8px;font-size:16px;background-color:rgba(255,255,255,.9);color:#333;transition:all .3s ease" type="text"/><button id="exportAccountButton" style="padding:12px 24px;background:linear-gradient(45deg,#e74c3c,#c0392b);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:1px;box-shadow:0 4px 6px rgba(0,0,0,.1)">Exportar Conta Completa</button></div><textarea cols="50" id="exportImportCode" placeholder="Cole o código aqui para importar" rows="5" style="width:100%;max-width:600px;padding:15px;margin:20px 0;font-size:16px;border:2px solid #3498db;border-radius:10px;background-color:rgba(52,152,219,.1);color:#ecf0f1;resize:vertical;transition:all .3s ease;box-shadow:0 4px 6px rgba(0,0,0,.1)"></textarea><button id="importButton" style="padding:12px 24px;background:linear-gradient(45deg,#3498db,#2980b9);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:1px;box-shadow:0 4px 6px rgba(0,0,0,.1);margin-top:15px"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-right:8px;vertical-align:middle" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>Importar Dados</button><div class="menu-item" id="returnFromExportImport">Voltar ao Lobby</div></div><div id="statisticsScreen" style="display:none"><h2 style="font-size:36px;color:#f1c40f;text-shadow:2px 2px 4px rgba(0,0,0,.5);margin-bottom:30px;background:linear-gradient(45deg,#3498db,#2980b9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;padding:15px 30px;border:3px solid #2980b9;border-radius:15px;display:inline-block;transform:skew(-5deg);box-shadow:0 10px 20px rgba(0,0,0,.2);font-family:'Arial Black',sans-serif;letter-spacing:2px;text-transform:uppercase;position:relative;overflow:hidden">Estatísticas<span style="position:absolute;top:-10px;right:-10px;width:30px;height:30px;background:#e74c3c;transform:rotate(45deg)"></span></h2><ul id="statisticsList"></ul><div class="menu-item" id="returnFromStatistics">Voltar ao Lobby</div></div><div id="chestRewardsScreen" style="display:none"><h2 style="
+    font-size: 36px;
+    font-weight: bold;
+    color: #f1c40f;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5),
+                 -1px -1px 0 #2c3e50,
+                 1px -1px 0 #2c3e50,
+                 -1px 1px 0 #2c3e50,
+                 1px 1px 0 #2c3e50;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    padding: 20px 40px;
+    border-radius: 15px;
+    display: inline-block;
+    transform: skew(-5deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2),
+                inset 0 2px 10px rgba(255,255,255,0.2);
+    font-family: 'Arial Black', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,0.1);
+    animation: glow 2s ease-in-out infinite;
+">
+    Recompensas de Baús
+    <span style="
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 30px;
+        height: 30px;
+        background: #e74c3c;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    "></span>
+<style>
+        @keyframes glow {
+            0% { box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 15px rgba(52,152,219,0.5); }
+            50% { box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 30px rgba(52,152,219,0.8); }
+            100% { box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 15px rgba(52,152,219,0.5); }
+        }
+    </style>
+</h2><div id="chestContainer">
+<script>
+// Modifying chest system to re-lock after timeout
+function openChest(chestId) {
+  const chest = chests.find(c => c.id === chestId);
+  if (chest.locked || chest.respawnTime > Date.now()) return;
+  
+  const reward = getChestReward();
+  alert(`Você ganhou: ${reward}`);
+  
+  chest.respawnTime = Date.now() + (3 * 60 * 60 * 1000); // 3 hours
+  chest.locked = true; // Re-lock the chest after opening
+  
+  updateChestDisplay();
+  saveGameState();
+}
+
+function updateChestDisplay() {
+  const chestContainer = document.getElementById('chestContainer');
+  chestContainer.innerHTML = '';
+
+  chests.forEach(chest => {
+    const chestElement = document.createElement('div');
+    chestElement.className = `chest ${chest.locked ? 'locked' : ''}`;
+    
+    chestElement.style.cssText = `
+      width: 120px;
+      height: 120px;
+      background: ${chest.locked ? '#a9a9a9' : '#d2691e'};
+      border-radius: 10px;
+      border: 3px solid ${chest.locked ? '#555' : '#ffcc00'};
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: gold;
+      font-size: 16px;
+      cursor: ${chest.locked ? 'not-allowed' : 'pointer'};
+      position: relative;
+      transition: transform 0.3s ease;
+    `;
+
+    if (chest.respawnTime > Date.now()) {
+      const timeLeft = Math.ceil((chest.respawnTime - Date.now()) / 1000 / 60);
+      chestElement.textContent = `${timeLeft} min`;
+      chestElement.classList.add('locked');
+    } else if (chest.locked) {
+      chestElement.innerHTML = `
+        🔒
+        <span style="position:absolute;bottom:10px;font-size:12px;color:#fff">Trancado</span>
+      `;
+    } else {
+      chestElement.innerHTML = `
+        <span style="font-size:24px;">🎁</span>
+        <span style="position:absolute;bottom:10px;font-size:12px;color:#fff">Abrir</span>
+      `;
+      chestElement.onclick = () => openChest(chest.id);
+      chestElement.onmouseover = () => chestElement.style.transform = 'scale(1.05)';
+      chestElement.onmouseout = () => chestElement.style.transform = 'scale(1)';
+    }
+
+    chestContainer.appendChild(chestElement);
+  });
+}
+
+// Modified gameOver function to handle chest unlocking on victory
+function handleVictoryChests() {
+  const lockedChest = chests.find(chest => 
+    chest.locked && 
+    (!chest.respawnTime || chest.respawnTime <= Date.now())
+  );
+  
+  if (lockedChest) {
+    lockedChest.locked = false;
+    alert("Você desbloqueou um baú! Vá para a tela de Recompensas de Baús para abri-lo.");
+    saveGameState();
+  }
+}
+</script>
+</div><div class="menu-item" id="returnFromChestRewards">Voltar ao Lobby</div></div><canvas id="gameCanvas" style="background: linear-gradient(45deg, #1a1a2e, #16213e); 
+  background-image: 
+    radial-gradient(circle at 10px 10px, rgba(255,255,255,0.05) 2px, transparent 0),
+    radial-gradient(circle at 25px 25px, rgba(255,255,255,0.03) 1px, transparent 0),
+    radial-gradient(circle at 40px 40px, rgba(255,255,255,0.04) 3px, transparent 0);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px, 40px 40px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;"></canvas><div id="healthBar"><div id="healthFill" style="width:100%;height:100%;background:linear-gradient(90deg,#ff5e62,#f96);border-radius:10px;transition:width .3s ease-in-out;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(45deg,rgba(255,255,255,.1),rgba(255,255,255,.1) 10px,rgba(255,255,255,.2) 10px,rgba(255,255,255,.2) 20px);animation:move-stripes 1s linear infinite"></div></div></div><div id="timerDisplay" style="position:absolute;top:20px;right:20px;font-size:28px;font-weight:700;color:#fff;text-shadow:2px 2px 4px rgba(0,0,0,.5);background:linear-gradient(135deg,rgba(41,128,185,.7),rgba(52,152,219,.7));padding:10px 20px;border-radius:15px;box-shadow:0 4px 6px rgba(0,0,0,.1);backdrop-filter:blur(5px);border:2px solid rgba(255,255,255,.1);display:none;align-items:center;justify-content:center;transition:all .3s ease"><svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-right:10px" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span id="timerText">Tempo: 60s</span></div><div id="gameOverScreen"><div id="gameOverMessage"></div><div id="trophyChange"></div><div id="returnToLobby">Voltar ao Lobby</div></div><script>let lastExportedCode = '';
+let importedCodes = new Set();
+let playerName = '';
+let maxTrophies = 0;
+let totalVictories = 0;
+let totalDefeats = 0;
+let maxGoldEarned = 0;
+let totalGoldSpent = 0;
+let totalAbilitiesUsed = 0;
+let lastDailyReward = 0;
+let dailyRewardStreak = 0;
+
+let chests = [
+  { id: 1, locked: true, respawnTime: 0 },
+  { id: 2, locked: true, respawnTime: 0 },
+  { id: 3, locked: true, respawnTime: 0 }
+];
+
+
+// === Sistema de Velocidade Lenta ===
+let timeScale = 1;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === '1') timeScale = 0.5;
+  else if (e.key === '2') timeScale = 0.3;
+  else if (e.key === '3') timeScale = 0.1;
+  else if (e.key === '0') timeScale = 1;
+});
+
+
+
+// === Exibir nome da velocidade temporariamente ===
+let velocityName = "";
+let velocityTimer = 0;
+
+function showVelocityName(name) {
+  velocityName = name;
+  velocityTimer = 100; // frames
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === '1') {
+    timeScale = 0.5;
+    showVelocityName("Lenta");
+  } else if (e.key === '2') {
+    timeScale = 0.3;
+    showVelocityName("Muito Lenta");
+  } else if (e.key === '3') {
+    timeScale = 0.1;
+    showVelocityName("Super Lenta");
+  } else if (e.key === '0') {
+    timeScale = 1;
+    showVelocityName("Normal");
+  }
+});
+
+
+// Add this new array for promotions
+const promotions = [
+  { coins: 500, price: '2,50' },
+  { coins: 1000, price: '3,50' },
+  { coins: 2000, price: '4,50' },
+  { coins: 5000, price: '9,00' },
+  { coins: 15000, price: '22,00' }
+];
+
+const shopItems = [
+  { name: 'Tiros 2x', cost: 200, effect: () => activePowerUps.doubleProjectiles = true },
+  { name: 'Redução de Dano 2x', cost: 300, effect: () => activePowerUps.damageReduction = 0.5 }
+];
+
+function showNameInputScreen() {
+  document.getElementById('nameInputScreen').style.display = 'flex';
+  document.getElementById('lobby').style.display = 'none';
+}
+
+function hideNameInputScreen() {
+  document.getElementById('nameInputScreen').style.display = 'none';
+  document.getElementById('lobby').style.display = 'flex';
+}
+
+function setPlayerName() {
+  const nameInput = document.getElementById('playerNameInput');
+  playerName = nameInput.value.trim();
+  if (playerName) {
+    localStorage.setItem('quantioPlayerName', playerName);
+    hideNameInputScreen();
+    updatePlayerNameDisplay();
+  } else {
+    alert('Por favor, insira um nome válido.');
+  }
+}
+
+function updatePlayerNameDisplay() {
+  const nameDisplay = document.getElementById('playerNameDisplay');
+  if (nameDisplay) {
+    nameDisplay.textContent = playerName ? `Jogador: ${playerName}` : 'Jogador: Sem nome';
+  }
+}
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const healthFill = document.getElementById('healthFill');
+const lobby = document.getElementById('lobby');
+const gameOverScreen = document.getElementById('gameOverScreen');
+const gameOverMessage = document.getElementById('gameOverMessage');
+const trophyChangeElement = document.getElementById('trophyChange');
+const returnToLobbyButton = document.getElementById('returnToLobby');
+const trophyCountElement = document.getElementById('trophyCount');
+const leagueInfoElement = document.getElementById('leagueInfo');
+const moneyCountElement = document.getElementById('moneyCount');
+const timerDisplay = document.getElementById('timerDisplay');
+
+let trophyCount = 0;
+let money = 0;
+let gameStartTime;
+let gameInProgress = false;
+let gameTimer;
+let gameTimerInterval;
+let playerLevel = 1;
+
+let activePowerUps = {
+  doubleProjectiles: false,
+  damageReduction: 1
+};
+
+let eventWins = 0;
+let eventLosses = 0;
+let eventEliminated = false;
+let inEvent = false;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const player = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  radius: 20,
+  speed: 5,
+  color: '#00ff00',
+  dx: 0,
+  dy: 0,
+  health: 100,
+  isStuck: false,
+  stuckTime: 0
+};
+
+const bullets = [];
+const enemyBullets = [];
+const enemies = [];
+let mouseX = 0;
+let mouseY = 0;
+let spawnInterval;
+
+const monsterTypes = ['normal', 'zombie', 'fast', 'squad'];
+
+function spawnEnemy() {
+  const side = Math.floor(Math.random() * 4);
+  let x, y;
+
+  switch(side) {
+    case 0: x = Math.random() * canvas.width; y = -30; break;
+    case 1: x = canvas.width + 30; y = Math.random() * canvas.height; break;
+    case 2: x = Math.random() * canvas.width; y = canvas.height + 30; break;
+    case 3: x = -30; y = Math.random() * canvas.height; break;
+  }
+
+  const type = monsterTypes[Math.floor(Math.random() * monsterTypes.length)];
+  let enemy = {
+    x: x,
+    y: y,
+    radius: 15,
+    speed: 2,
+    color: '#ff0000',
+    angle: Math.random() * Math.PI * 2,
+    detectionRadius: 200,
+    evadeSpeed: 3,
+    lastShot: 0,
+    wanderAngle: Math.random() * Math.PI * 2,
+    type: type
+  };
+
+  switch(type) {
+    case 'zombie':
+      enemy.color = '#00ff00';
+      enemy.speed = 1.5;
+      break;
+    case 'fast':
+      enemy.color = '#ffff00';
+      enemy.speed = 4;
+      enemy.radius = 10;
+      break;
+    case 'squad':
+      enemy.color = '#ff00ff';
+      enemy.members = [
+        {shots: 1},
+        {shots: 2},
+        {shots: 3},
+        {shots: 4}
+      ];
+      break;
+  }
+
+  enemies.push(enemy);
+}
+
+function drawPlayer() {
+  ctx.save();
+  ctx.translate(player.x, player.y);
+  ctx.rotate(Math.atan2(mouseY - player.y, mouseX - player.x));
+
+  ctx.beginPath();
+  ctx.arc(0, 0, player.radius, 0, Math.PI * 2);
+  ctx.fillStyle = player.isStuck ? '#808080' : '#4a90e2';
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, player.radius * 0.8, 0, Math.PI * 2);
+  ctx.strokeStyle = '#2c3e50';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(player.radius * 0.3, -player.radius * 0.2, player.radius * 0.2, 0, Math.PI * 2);
+  ctx.arc(player.radius * 0.3, player.radius * 0.2, player.radius * 0.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#333333';
+  ctx.fillRect(player.radius * 0.5, -player.radius * 0.1, player.radius * 0.8, player.radius * 0.2);
+
+  ctx.restore();
+
+if (velocityTimer > 0) {
+  ctx.fillStyle = '#ffcc00';
+  ctx.font = 'bold 28px Arial';
+  ctx.fillText('Velocidade: ' + velocityName, canvas.width / 2 - 100, 60);
+  velocityTimer--;
+}
+
+ctx.fillStyle = '#fff';
+ctx.font = '16px Arial';
+ctx.fillText('Velocidade: x' + timeScale.toFixed(2), 10, 30);
+}
+
+function drawEnemies() {
+  enemies.forEach(enemy => {
+    ctx.save();
+    ctx.translate(enemy.x, enemy.y);
+    ctx.rotate(enemy.angle);
+    
+    switch(enemy.type) {
+      case 'normal':
+        drawNormalEnemy(enemy);
+        break;
+      case 'zombie':
+        drawZombieEnemy(enemy);
+        break;
+      case 'fast':
+        drawFastEnemy(enemy);
+        break;
+      case 'squad':
+        drawSquadEnemy(enemy);
+        break;
+    }
+
+    ctx.restore();
+  });
+}
+
+function drawNormalEnemy(enemy) {
+  ctx.fillStyle = '#ff4136';
+  ctx.beginPath();
+  ctx.arc(0, 0, enemy.radius, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(enemy.radius * 0.3, -enemy.radius * 0.2, enemy.radius * 0.2, 0, Math.PI * 2);
+  ctx.arc(enemy.radius * 0.3, enemy.radius * 0.2, enemy.radius * 0.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = '#990000';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-enemy.radius * 0.5, -enemy.radius * 0.5);
+  ctx.lineTo(enemy.radius * 0.5, enemy.radius * 0.5);
+  ctx.moveTo(enemy.radius * 0.5, -enemy.radius * 0.5);
+  ctx.lineTo(-enemy.radius * 0.5, enemy.radius * 0.5);
+  ctx.stroke();
+}
+
+function drawZombieEnemy(enemy) {
+  ctx.fillStyle = '#2ecc40';
+  ctx.beginPath();
+  ctx.arc(0, 0, enemy.radius, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ff4136';
+  ctx.beginPath();
+  ctx.arc(enemy.radius * 0.3, -enemy.radius * 0.2, enemy.radius * 0.2, 0, Math.PI * 2);
+  ctx.arc(enemy.radius * 0.3, enemy.radius * 0.2, enemy.radius * 0.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = '#1a8829';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(0, enemy.radius * 0.3, enemy.radius * 0.4, 0, Math.PI);
+  ctx.stroke();
+}
+
+function drawFastEnemy(enemy) {
+  ctx.fillStyle = '#ffdc00';
+  ctx.beginPath();
+  ctx.moveTo(enemy.radius, 0);
+  ctx.lineTo(-enemy.radius, -enemy.radius);
+  ctx.lineTo(-enemy.radius, enemy.radius);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(enemy.radius * 0.2, 0, enemy.radius * 0.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = '#ff851b';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-enemy.radius * 1.2, 0);
+  ctx.lineTo(-enemy.radius * 1.6, 0);
+  ctx.moveTo(-enemy.radius * 1.3, -enemy.radius * 0.3);
+  ctx.lineTo(-enemy.radius * 1.7, -enemy.radius * 0.4);
+  ctx.moveTo(-enemy.radius * 1.3, enemy.radius * 0.3);
+  ctx.lineTo(-enemy.radius * 1.7, enemy.radius * 0.4);
+  ctx.stroke();
+}
+
+function drawSquadEnemy(enemy) {
+  ctx.fillStyle = '#b10dc9';
+  ctx.beginPath();
+  ctx.arc(0, 0, enemy.radius, 0, Math.PI * 2);
+  ctx.fill();
+
+  const positions = [
+    {x: -enemy.radius * 0.6, y: -enemy.radius * 0.6},
+    {x: enemy.radius * 0.6, y: -enemy.radius * 0.6},
+    {x: -enemy.radius * 0.6, y: enemy.radius * 0.6},
+    {x: enemy.radius * 0.6, y: enemy.radius * 0.6}
+  ];
+
+  ctx.fillStyle = '#ffffff';
+  positions.forEach((pos, index) => {
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, enemy.radius * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.fillStyle = '#000000';
+    ctx.font = `${enemy.radius * 0.3}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(index + 1, pos.x, pos.y);
+  });
+
+  ctx.strokeStyle = '#7b0c8e';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-enemy.radius * 0.6, -enemy.radius * 0.6);
+  ctx.lineTo(enemy.radius * 0.6, enemy.radius * 0.6);
+  ctx.moveTo(enemy.radius * 0.6, -enemy.radius * 0.6);
+  ctx.lineTo(-enemy.radius * 0.6, enemy.radius * 0.6);
+  ctx.stroke();
+}
+
+function moveEnemies() {
+  enemies.forEach(enemy => {
+    let dx = player.x - enemy.x;
+    let dy = player.y - enemy.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    let moveX, moveY;
+
+    if (enemy.type === 'fast') {
+      if (activePowerUps.repulsion && distance < 100) {
+        moveX = -dx / distance;
+        moveY = -dy / distance;
+      } else {
+        moveX = dx / distance;
+        moveY = dy / distance;
+      }
+    } else {
+      if (distance < 200 || (activePowerUps.repulsion && distance < 100)) {
+        moveX = -dx / distance;
+        moveY = -dy / distance;
+      } else {
+        enemy.wanderAngle += (Math.random() - 0.5) * 0.5;
+        moveX = Math.cos(enemy.wanderAngle);
+        moveY = Math.sin(enemy.wanderAngle);
+      }
+    }
+
+    enemy.x += moveX * enemy.speed * timeScale;
+    enemy.y += moveY * enemy.speed * timeScale;
+
+    enemy.angle = Math.atan2(moveY, moveX);
+
+    enemy.x = Math.max(enemy.radius, Math.min(canvas.width - enemy.radius, enemy.x));
+    enemy.y = Math.max(enemy.radius, Math.min(canvas.height - enemy.radius, enemy.y));
+
+    if (Date.now() - enemy.lastShot > 1000 && distance < 300) {
+      const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+      const speed = 3;
+
+      if (enemy.type === 'normal' || enemy.type === 'zombie') {
+        enemyBullets.push({
+          x: enemy.x,
+          y: enemy.y,
+          dx: Math.cos(angle) * speed,
+          dy: Math.sin(angle) * speed,
+          radius: 3,
+          color: enemy.type === 'zombie' ? '#00ff00' : '#ff8800'
+        });
+      } else if (enemy.type === 'squad') {
+        enemy.members.forEach(member => {
+          for (let i = 0; i < member.shots; i++) {
+            const spreadAngle = angle + (Math.random() - 0.5) * 0.5;
+            enemyBullets.push({
+              x: enemy.x,
+              y: enemy.y,
+              dx: Math.cos(spreadAngle) * speed,
+              dy: Math.sin(spreadAngle) * speed,
+              radius: 3,
+              color: '#ff00ff'
+            });
+          }
+        });
+      }
+
+      enemy.lastShot = Date.now();
+    }
+
+    if (enemy.type === 'fast' && distance < enemy.radius + player.radius) {
+      if (!activePowerUps.temporaryShield) {
+        player.health -= 2 * activePowerUps.damageReduction;
+        updateHealthBar();
+        if (player.health <= 0) {
+          gameOver(false);
+        }
+      }
+    }
+  });
+}
+
+function movePlayer() {
+  if (!player.isStuck) {
+    const speedMultiplier = activePowerUps.speedBoost ? 1.5 : 1;
+    player.x += player.dx * speedMultiplier;
+    player.y += player.dy * speedMultiplier;
+    player.x = Math.max(player.radius, Math.min(canvas.width - player.radius, player.x));
+    player.y = Math.max(player.radius, Math.min(canvas.height - player.radius, player.y));
+  } else {
+    player.stuckTime--;
+    if (player.stuckTime <= 0) {
+      player.isStuck = false;
+    }
+  }
+
+  if (activePowerUps.regeneration && player.health < 100) {
+    player.health = Math.min(100, player.health + 0.1);
+    updateHealthBar();
+  }
+}
+
+function drawBullets() {
+  bullets.forEach(bullet => {
+    ctx.beginPath();
+    ctx.arc(bullet.x, bullet.y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffff00';
+    ctx.fill();
+    ctx.closePath();
+  });
+
+  enemyBullets.forEach(bullet => {
+    ctx.beginPath();
+    ctx.arc(bullet.x, bullet.y, 3, 0, Math.PI * 2);
+    ctx.fillStyle = bullet.color || '#ff8800';
+    ctx.fill();
+    ctx.closePath();
+  });
+}
+
+function drawCrosshair() {
+  ctx.beginPath();
+  ctx.arc(mouseX, mouseY, 10, 0, Math.PI * 2);
+  ctx.strokeStyle = '#ff0000';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.closePath();
+
+  ctx.beginPath();
+  ctx.moveTo(mouseX - 15, mouseY);
+  ctx.lineTo(mouseX + 15, mouseY);
+  ctx.moveTo(mouseX, mouseY - 15);
+  ctx.lineTo(mouseX, mouseY + 15);
+  ctx.strokeStyle = '#ff0000';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.closePath();
+}
+
+function moveBullets() {
+  bullets.forEach((bullet, index) => {
+    bullet.x += bullet.dx * timeScale;
+    bullet.y += bullet.dy * timeScale;
+    if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
+      bullets.splice(index, 1);
+    }
+  });
+
+  enemyBullets.forEach((bullet, index) => {
+    bullet.x += bullet.dx * timeScale;
+    bullet.y += bullet.dy * timeScale;
+    if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
+      enemyBullets.splice(index, 1);
+    }
+  });
+}
+
+function checkCollisions() {
+  bullets.forEach((bullet, bIndex) => {
+    enemies.forEach((enemy, eIndex) => {
+      const dx = bullet.x - enemy.x;
+      const dy = bullet.y - enemy.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < bullet.radius + enemy.radius) {
+        bullets.splice(bIndex, 1);
+        
+        if (bullet.type === 'explosive') {
+          enemies.forEach((nearbyEnemy, nearbyIndex) => {
+            const nearbyDx = nearbyEnemy.x - enemy.x;
+            const nearbyDy = nearbyEnemy.y - enemy.y;
+            const nearbyDistance = Math.sqrt(nearbyDx * nearbyDx + nearbyDy * nearbyDy);
+            if (nearbyDistance < 100) {
+              enemies.splice(nearbyIndex, 1);
+            }
+          });
+        } else if (bullet.type === 'freeze') {
+          enemy.speed *= 0.5;
+          enemy.color = '#00ffff';
+          setTimeout(() => {
+            enemy.speed *= 2;
+            enemy.color = enemy.originalColor;
+          }, 3000);
+        }
+        
+        enemies.splice(eIndex, 1);
+      }
+    });
+  });
+
+  enemyBullets.forEach((bullet, bIndex) => {
+    const dx = bullet.x - player.x;
+    const dy = bullet.y - player.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < bullet.radius + player.radius) {
+      enemyBullets.splice(bIndex, 1);
+      if (bullet.color === '#00ff00') {
+        player.isStuck = true;
+        player.stuckTime = 5 * 60;
+      } else {
+        player.health -= 10 * damageReduction;
+        updateHealthBar();
+        if (player.health <= 0) {
+          gameOver(false);
+        }
+      }
+    }
+  });
+}
+
+function updateHealthBar() {
+  healthFill.style.width = `${player.health}%`;
+}
+
+function updateMoneyCount() {
+  moneyCountElement.textContent = `Moedas: ${money}`;
+}
+
+function gameOver(won) {
+  clearInterval(gameTimerInterval);
+  saveGameState();
+  gameInProgress = false;
+  clearInterval(spawnInterval);
+  timerDisplay.style.display = 'none';
+  const gameTime = (Date.now() - gameStartTime) / 1000;
+  
+  let trophyChange = 0;
+  if (won) {
+    totalVictories++;
+    const moneyEarned = Math.floor(player.health);
+    maxGoldEarned = Math.max(maxGoldEarned, moneyEarned);
+    trophyChange = Math.floor(Math.random() * 6) + 28;
+    trophyCount += trophyChange;
+    money += moneyEarned;
+    gameOverMessage.textContent = `Vitória! Você sobreviveu por ${gameTime.toFixed(1)} segundos!`;
+    trophyChangeElement.textContent = `Troféus +${trophyChange} | Moedas +${moneyEarned}`;
+    
+    const lockedChest = chests.find(chest => chest.locked);
+    if (lockedChest) {
+      lockedChest.locked = false;
+      alert("Você desbloqueou um baú! Vá para a tela de Recompensas de Baús para abri-lo.");
+    }
+    
+    if (inEvent) {
+      eventWins++;
+      if (eventWins === 9) {
+        money += 1500;
+        alert('Parabéns! Você completou o evento e ganhou 1500 moedas!');
+        resetEventStatus();
+      }
+    }
+  } else {
+    totalDefeats++;
+    trophyChange = -(Math.floor(Math.random() * 4) + 24);
+    trophyCount = Math.max(0, trophyCount + trophyChange);
+    gameOverMessage.textContent = `Derrota! Você sobreviveu por ${gameTime.toFixed(1)} segundos.`;
+    trophyChangeElement.textContent = `Troféus ${trophyChange}`;
+    
+    if (inEvent) {
+      eventLosses++;
+      if (eventLosses === 3) {
+        alert('Você foi eliminado do evento!');
+        eventEliminated = true;
+        resetEventStatus();
+      }
+    }
+  }
+
+  maxTrophies = Math.max(maxTrophies, trophyCount);
+  updateTrophyCount();
+  updateLeague();
+  updateMoneyCount();
+  canvas.style.display = 'none';
+  document.getElementById('healthBar').style.display = 'none';
+  gameOverScreen.style.display = 'flex';
+  
+  if (inEvent) {
+    updateEventScreen();
+  }
+
+  doubleProjectiles = false;
+  damageReduction = 1;
+  
+  saveGameState();
+
+  setTimeout(() => {
+    location.reload();
+  }, 3000);
+}
+
+function resetEventStatus() {
+  eventWins = 0;
+  eventLosses = 0;
+  eventEliminated = false;
+  saveGameState();
+}
+
+function resetGame() {
+  player.health = 100;
+  player.isStuck = false;
+  player.stuckTime = 0;
+  updateHealthBar();
+  enemies.length = 0;
+  bullets.length = 0;
+  enemyBullets.length = 0;
+  player.x = canvas.width / 2;
+  player.y = canvas.height / 2;
+}
+
+function startSpawning() {
+  spawnInterval = setInterval(spawnEnemy, 2000);
+}
+
+function gameLoop() {
+  if (!gameInProgress) return;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  movePlayer();
+  moveEnemies();
+  moveBullets();
+  checkCollisions();
+
+  drawPlayer();
+  drawEnemies();
+  drawBullets();
+  drawCrosshair();
+
+  requestAnimationFrame(gameLoop);
+}
+
+function startGame(isEvent = false) {
+  inEvent = isEvent;
+  timerDisplay.style.display = 'block';
+  gameTimer = 60;
+  updateTimer();
+  gameTimerInterval = setInterval(updateTimer, 1000);
+  
+  lobby.style.display = 'none';
+  canvas.style.display = 'block';
+  document.getElementById('healthBar').style.display = 'block';
+  resetGame();
+
+  doubleProjectiles = activePowerUps.doubleProjectiles;
+  damageReduction = activePowerUps.damageReduction;
+
+  activePowerUps = {
+    doubleProjectiles: false,
+    damageReduction: 1
+  };
+
+  gameInProgress = true;
+  gameStartTime = Date.now();
+  startSpawning();
+  gameLoop();
+}
+
+function updateTimer() {
+  timerDisplay.textContent = `Tempo: ${gameTimer}s`;
+  if (gameTimer > 0) {
+    gameTimer--;
+  } else {
+    clearInterval(gameTimerInterval);
+    gameOver(true);
+  }
+}
+
+const leaguesScreen = document.getElementById('leaguesScreen');
+const leaguesList = document.getElementById('leaguesList');
+const showLeaguesButton = document.getElementById('showLeagues');
+const returnFromLeaguesButton = document.getElementById('returnFromLeagues');
+
+const leaguesInfo = [
+  { name: 'Sem Liga', trophies: 0 },
+  { name: 'Liga Paia', trophies: 400 },
+  { name: 'Rebelde', trophies: 900 },
+  { name: 'Candidato', trophies: 1200 },
+  { name: 'Patrão', trophies: 1700 },
+  { name: 'Soberana', trophies: 2000 },
+  { name: 'Estrelar', trophies: 2600 },
+  { name: 'Liga Maior Campeão', trophies: 3000 },
+  { name: 'Celeste', trophies: 3300 }
+];
+
+function showLeaguesScreen() {
+  leaguesList.innerHTML = '';
+  leaguesInfo.forEach(league => {
+    const li = document.createElement('li');
+    li.textContent = `${league.name}: ${league.trophies} troféus`;
+    leaguesList.appendChild(li);
+  });
+  lobby.style.display = 'none';
+  leaguesScreen.style.display = 'flex';
+}
+
+function showShopScreen() {
+  lobby.style.display = 'none';
+  document.getElementById('shopScreen').style.display = 'flex';
+  updateShopItems();
+}
+
+function updateShopItems() {
+  const shopItemsContainer = document.getElementById('shopItems');
+  const moneyDisplay = document.getElementById('moneyDisplay');
+  shopItemsContainer.innerHTML = '';
+  moneyDisplay.textContent = `Suas moedas: ${money}`;
+  
+  // Add promotions section
+  const promotionsSection = document.createElement('div');
+  promotionsSection.innerHTML = '<h3>Promoções</h3>';
+  shopItemsContainer.appendChild(promotionsSection);
+
+  promotions.forEach(promo => {
+    const promoElement = document.createElement('div');
+    promoElement.className = 'shop-item';
+    promoElement.innerHTML = `
+      <div class="shop-item-name">${promo.coins} MOEDAS</div>
+      <div class="shop-item-cost">R$ ${promo.price}</div>
+    `;
+    promotionsSection.appendChild(promoElement);
+  });
+
+  const contactInfo = document.createElement('div');
+  contactInfo.className = 'contact-info';
+  contactInfo.innerHTML = `
+    <p>ADQUIRIR ENTRE EM CONTATO</p>
+    <p>CALZSAN (11 953513188)</p>
+  `;
+  promotionsSection.appendChild(contactInfo);
+
+  // Existing shop items
+  const itemsSection = document.createElement('div');
+  itemsSection.innerHTML = '<h3>Itens da Loja</h3>';
+  shopItemsContainer.appendChild(itemsSection);
+
+  shopItems.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'shop-item';
+    itemElement.innerHTML = `
+      <div class="shop-item-name">${item.name}</div>
+      <div class="shop-item-cost">${item.cost} moedas</div>
+    `;
+    itemElement.addEventListener('click', () => buyItem(item));
+    itemsSection.appendChild(itemElement);
+  });
+}
+
+function buyItem(item) {
+  if (money >= item.cost) {
+    money -= item.cost;
+    totalGoldSpent += item.cost;
+    item.effect();
+    totalAbilitiesUsed++;
+    updateMoneyCount();
+    alert(`Você comprou ${item.name}! Será ativo na próxima partida.`);
+  } else {
+    alert('Moedas insuficientes!');
+  }
+}
+
+function showEventScreen() {
+  if (eventEliminated) {
+    alert('Você já foi eliminado deste evento.');
+    return;
+  }
+  lobby.style.display = 'none';
+  document.getElementById('eventScreen').style.display = 'flex';
+  updateEventScreen();
+}
+
+function updateEventScreen() {
+  document.getElementById('eventWins').textContent = eventWins;
+  document.getElementById('eventLosses').textContent = eventLosses;
+}
+
+function showExportImportScreen() {
+  lobby.style.display = 'none';
+  document.getElementById('exportImportScreen').style.display = 'flex';
+}
+
+function exportMoney() {
+  const amount = prompt("Digite a quantidade de moedas que deseja exportar:", money);
+  if (amount === null) return; 
+  
+  const parsedAmount = parseInt(amount);
+  if (isNaN(parsedAmount) || parsedAmount <= 0 || parsedAmount > money) {
+    alert("Quantidade inválida. Por favor, insira um número válido entre 1 e " + money);
+    return;
+  }
+
+  const customCode = document.getElementById('moneyExportCode').value.trim();
+  if (!customCode) {
+    alert("Por favor, insira um código personalizado para exportar as moedas.");
+    return;
+  }
+
+  const moneyData = {
+    type: 'money',
+    money: parsedAmount,
+    timestamp: Date.now()
+  };
+  const exportCode = customCode + '|' + btoa(JSON.stringify(moneyData));
+  
+  if (!importedCodes.has(exportCode)) {
+    document.getElementById('exportImportCode').value = exportCode;
+    
+    money -= parsedAmount;
+    updateMoneyCount();
+    saveGameState();
+    
+    importedCodes.add(exportCode);
+    alert(`${parsedAmount} moedas exportadas! Copie o código para usar em outro dispositivo.`);
+  } else {
+    alert("Este código já foi usado. Por favor, escolha um código diferente.");
+  }
+}
+
+function exportAccount() {
+  const customCode = document.getElementById('accountExportCode').value.trim();
+  if (!customCode) {
+    alert("Por favor, insira um código personalizado para exportar a conta.");
+    return;
+  }
+
+  const accountData = {
+    type: 'account',
+    trophyCount: trophyCount,
+    league: leagueInfoElement.textContent.split(': ')[1],
+    playerLevel: playerLevel,
+    money: money,
+    activePowerUps: activePowerUps,
+    playerName: playerName,
+    maxTrophies: maxTrophies,
+    totalVictories: totalVictories,
+    totalDefeats: totalDefeats,
+    maxGoldEarned: maxGoldEarned,
+    totalGoldSpent: totalGoldSpent,
+    totalAbilitiesUsed: totalAbilitiesUsed,
+  };
+  const exportCode = customCode + '|' + btoa(JSON.stringify(accountData));
+  
+  if (!importedCodes.has(exportCode)) {
+    document.getElementById('exportImportCode').value = exportCode;
+    importedCodes.add(exportCode);
+    alert('Conta completa exportada! Copie o código para usar em outro dispositivo.');
+    
+    localStorage.removeItem('quantioGameState');
+    localStorage.removeItem('quantioPlayerName');
+    
+    trophyCount = 0;
+    playerLevel = 1;
+    money = 0;
+    activePowerUps = {
+      doubleProjectiles: false,
+      damageReduction: 1
+    };
+    playerName = '';
+    
+    updateTrophyCount();
+    updateLeague();
+    updateMoneyCount();
+    updatePlayerNameDisplay();
+    
+    showNameInputScreen();
+  } else {
+    alert("Este código já foi usado. Por favor, escolha um código diferente.");
+  }
+}
+
+function importGameData() {
+  const importCode = document.getElementById('exportImportCode').value.trim();
+  const [customCode, encodedData] = importCode.split('|');
+  
+  if (!customCode || !encodedData) {
+    alert('Código inválido. Por favor, verifique e tente novamente.');
+    return;
+  }
+
+  try {
+    const gameData = JSON.parse(atob(encodedData));
+    if (importedCodes.has(importCode)) {
+      alert('Este código já foi usado. Por favor, use um novo código.');
+      return;
+    }
+
+    if (gameData.type === 'money') {
+      money += gameData.money;
+      updateMoneyCount();
+      importedCodes.add(importCode);
+      alert(`${gameData.money} moedas importadas com sucesso!`);
+    } else if (gameData.type === 'account') {
+      trophyCount = gameData.trophyCount;
+      playerLevel = gameData.playerLevel;
+      money = gameData.money;
+      activePowerUps = gameData.activePowerUps;
+      playerName = gameData.playerName;
+      maxTrophies = gameData.maxTrophies;
+      totalVictories = gameData.totalVictories;
+      totalDefeats = gameData.totalDefeats;
+      maxGoldEarned = gameData.maxGoldEarned;
+      totalGoldSpent = gameData.totalGoldSpent;
+      totalAbilitiesUsed = gameData.totalAbilitiesUsed;
+      
+      updateTrophyCount();
+      updateLeague();
+      updateMoneyCount();
+      updatePlayerNameDisplay();
+      
+      importedCodes.add(importCode);
+      alert('Conta completa importada com sucesso!');
+      
+      saveGameState();
+      
+      location.reload();
+    } else {
+      throw new Error('Tipo de dados inválido');
+    }
+  } catch (error) {
+    alert('Código inválido. Por favor, verifique e tente novamente.');
+  }
+}
+
+function saveGameState() {
+  const gameState = {
+    trophyCount: trophyCount,
+    league: leagueInfoElement.textContent.split(': ')[1],
+    playerLevel: playerLevel,
+    money: money,
+    activePowerUps: activePowerUps,
+    importedCodes: Array.from(importedCodes),
+    maxTrophies: maxTrophies,
+    totalVictories: totalVictories,
+    totalDefeats: totalDefeats,
+    maxGoldEarned: maxGoldEarned,
+    totalGoldSpent: totalGoldSpent,
+    totalAbilitiesUsed: totalAbilitiesUsed,
+    lastDailyReward: lastDailyReward,
+    dailyRewardStreak: dailyRewardStreak,
+  };
+  localStorage.setItem('quantioGameState', JSON.stringify(gameState));
+  localStorage.setItem('quantioChests', JSON.stringify(chests));
+}
+
+function loadGameState() {
+  const savedState = localStorage.getItem('quantioGameState');
+  if (savedState) {
+    const gameState = JSON.parse(savedState);
+    trophyCount = gameState.trophyCount;
+    playerLevel = gameState.playerLevel || 1;
+    money = gameState.money || 0;
+    activePowerUps = {
+      doubleProjectiles: gameState.activePowerUps?.doubleProjectiles || false,
+      damageReduction: gameState.activePowerUps?.damageReduction || 1
+    };
+    importedCodes = new Set(gameState.importedCodes || []);
+    maxTrophies = gameState.maxTrophies || 0;
+    totalVictories = gameState.totalVictories || 0;
+    totalDefeats = gameState.totalDefeats || 0;
+    maxGoldEarned = gameState.maxGoldEarned || 0;
+    totalGoldSpent = gameState.totalGoldSpent || 0;
+    totalAbilitiesUsed = gameState.totalAbilitiesUsed || 0;
+    lastDailyReward = gameState.lastDailyReward || 0;
+    dailyRewardStreak = gameState.dailyRewardStreak || 0;
+    updateTrophyCount();
+    updateLeague();
+    updateMoneyCount();
+  }
+  
+  playerName = localStorage.getItem('quantioPlayerName');
+  if (!playerName) {
+    showNameInputScreen();
+  } else {
+    updatePlayerNameDisplay();
+  }
+  
+  const savedChests = JSON.parse(localStorage.getItem('quantioChests'));
+  if (savedChests) {
+    chests = savedChests;
+  }
+}
+
+function showStatisticsScreen() {
+  lobby.style.display = 'none';
+  document.getElementById('statisticsScreen').style.display = 'flex';
+  updateStatistics();
+}
+
+function updateStatistics() {
+  const statisticsList = document.getElementById('statisticsList');
+  statisticsList.innerHTML = `
+    <li>Máximo de troféus alcançados: ${maxTrophies}</li>
+    <li>Número de vitórias: ${totalVictories}</li>
+    <li>Número de derrotas: ${totalDefeats}</li>
+    <li>Máximo de ouro ganho em uma partida: ${maxGoldEarned}</li>
+    <li>Total de ouro gasto: ${totalGoldSpent}</li>
+    <li>Quantidade de habilidades usadas: ${totalAbilitiesUsed}</li>
+  `;
+}
+
+function claimDailyReward() {
+  const now = Date.now();
+  const oneDayInMs = 24 * 60 * 60 * 1000;
+  
+  if (now - lastDailyReward >= oneDayInMs) {
+    dailyRewardStreak = Math.min(dailyRewardStreak + 1, 7);
+    const rewardAmount = 50 + (dailyRewardStreak * 10);
+    money += rewardAmount;
+    lastDailyReward = now;
+    updateMoneyCount();
+    saveGameState();
+    alert(`Você recebeu ${rewardAmount} moedas como recompensa diária! Sequência atual: ${dailyRewardStreak} dia(s).`);
+  } else {
+    const timeLeft = new Date(lastDailyReward + oneDayInMs - now);
+    const hoursLeft = timeLeft.getUTCHours();
+    const minutesLeft = timeLeft.getUTCMinutes();
+    alert(`Você já reclamou sua recompensa diária. Volte em ${hoursLeft}h ${minutesLeft}m para a próxima recompensa.`);
+  }
+}
+
+function showChestRewardsScreen() {
+  lobby.style.display = 'none';
+  document.getElementById('chestRewardsScreen').style.display = 'flex';
+  updateChestDisplay();
+}
+
+function updateChestDisplay() {
+  const chestContainer = document.getElementById('chestContainer');
+  chestContainer.innerHTML = '';
+
+  chests.forEach(chest => {
+    const chestElement = document.createElement('div');
+    chestElement.className = `chest ${chest.locked ? 'locked' : ''}`;
+    
+    chestElement.style.cssText = `
+      width: 120px;
+      height: 120px;
+      background: ${chest.locked ? '#a9a9a9' : '#d2691e'};
+      border-radius: 10px;
+      border: 3px solid ${chest.locked ? '#555' : '#ffcc00'};
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: gold;
+      font-size: 16px;
+      cursor: ${chest.locked ? 'not-allowed' : 'pointer'};
+      position: relative;
+      transition: transform 0.3s ease;
+    `;
+
+    if (chest.respawnTime > Date.now()) {
+      const timeLeft = Math.ceil((chest.respawnTime - Date.now()) / 1000 / 60);
+      chestElement.textContent = `${timeLeft} min`;
+      chestElement.classList.add('locked');
+    } else if (chest.locked) {
+      chestElement.innerHTML = `
+        🔒
+        <span style="position:absolute;bottom:10px;font-size:12px;color:#fff">Trancado</span>
+      `;
+    } else {
+      chestElement.innerHTML = `
+        <span style="font-size:24px;">🎁</span>
+        <span style="position:absolute;bottom:10px;font-size:12px;color:#fff">Abrir</span>
+      `;
+      chestElement.onclick = () => openChest(chest.id);
+      chestElement.onmouseover = () => chestElement.style.transform = 'scale(1.05)';
+      chestElement.onmouseout = () => chestElement.style.transform = 'scale(1)';
+    }
+
+    chestContainer.appendChild(chestElement);
+  });
+}
+
+function openChest(chestId) {
+  const chest = chests.find(c => c.id === chestId);
+  if (chest.locked || chest.respawnTime > Date.now()) return;
+  
+  const reward = getChestReward();
+  alert(`Você ganhou: ${reward}`);
+  
+  chest.respawnTime = Date.now() + (3 * 60 * 60 * 1000); // 3 hours
+  updateChestDisplay();
+  saveGameState();
+}
+
+function getChestReward() {
+  const random = Math.random();
+  if (random < 0.1) { // 10% chance for ability
+    return "Uma habilidade aleatória!";
+  } else if (random < 0.2) { // 10% chance for trophies
+    const trophies = Math.floor(Math.random() * 8) + 3;
+    trophyCount += trophies;
+    updateTrophyCount();
+    return `${trophies} troféus!`;
+  } else { // 80% chance for coins
+    const coins = Math.floor(Math.random() * 291) + 10;
+    money += coins;
+    updateMoneyCount();
+    return `${coins} moedas!`;
+  }
+}
+
+showLeaguesButton.addEventListener('click', showLeaguesScreen);
+returnFromLeaguesButton.addEventListener('click', () => {
+  leaguesScreen.style.display = 'none';
+  lobby.style.display = 'flex';
+});
+returnToLobbyButton.addEventListener('click', () => {
+  gameOverScreen.style.display = 'none';
+  lobby.style.display = 'flex';
+  updateMoneyCount();
+});
+document.getElementById('submitName').addEventListener('click', setPlayerName);
+document.getElementById('showShop').addEventListener('click', showShopScreen);
+document.getElementById('returnFromShop').addEventListener('click', () => {
+  document.getElementById('shopScreen').style.display = 'none';
+  lobby.style.display = 'flex';
+});
+document.getElementById('showEvents').addEventListener('click', showEventScreen);
+document.getElementById('returnFromEvent').addEventListener('click', () => {
+  document.getElementById('eventScreen').style.display = 'none';
+  lobby.style.display = 'flex';
+});
+document.getElementById('exportMoneyButton').addEventListener('click', exportMoney);
+document.getElementById('exportAccountButton').addEventListener('click', exportAccount);
+document.getElementById('importButton').addEventListener('click', importGameData);
+document.getElementById('showExportImport').addEventListener('click', showExportImportScreen);
+document.getElementById('returnFromExportImport').addEventListener('click', () => {
+  document.getElementById('exportImportScreen').style.display = 'none';
+  lobby.style.display = 'flex';
+});
+document.getElementById('showStatistics').addEventListener('click', showStatisticsScreen);
+document.getElementById('returnFromStatistics').addEventListener('click', () => {
+  document.getElementById('statisticsScreen').style.display = 'none';
+  lobby.style.display = 'flex';
+});
+document.getElementById('claimDailyReward').addEventListener('click', claimDailyReward);
+document.getElementById('showChestRewards').addEventListener('click', showChestRewardsScreen);
+document.getElementById('returnFromChestRewards').addEventListener('click', () => {
+  document.getElementById('chestRewardsScreen').style.display = 'none';
+  lobby.style.display = 'flex';
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!player.isStuck) {
+    switch(e.key.toLowerCase()) {
+      case 'w': player.dy = -player.speed; break;
+      case 's': player.dy = player.speed; break;
+      case 'a': player.dx = -player.speed; break;
+      case 'd': player.dx = player.speed; break;
+    }
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  switch(e.key.toLowerCase()) {
+    case 'w':
+    case 's': player.dy = 0; break;
+    case 'a':
+    case 'd': player.dx = 0; break;
+  }
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+canvas.addEventListener('mousedown', (e) => {
+  const angle = Math.atan2(e.clientY - player.y, e.clientX - player.x);
+  const speed = doubleProjectiles ? 10 : 5;
+  
+  bullets.push({
+    x: player.x,
+    y: player.y,
+    dx: Math.cos(angle) * speed,
+    dy: Math.sin(angle) * speed,
+    radius: 5
+  });
+  
+  if (doubleProjectiles) {
+    bullets.push({
+      x: player.x,
+      y: player.y,
+      dx: Math.cos(angle + 0.1) * speed,
+      dy: Math.sin(angle + 0.1) * speed,
+      radius: 5
+    });
+    bullets.push({
+      x: player.x,
+      y: player.y,
+      dx: Math.cos(angle - 0.1) * speed,
+      dy: Math.sin(angle - 0.1) * speed,
+      radius: 5
+    });
+  }
+});
+
+function updateTrophyCount() {
+  trophyCountElement.textContent = `Troféus: ${trophyCount}`;
+}
+
+function updateLeague() {
+  let league;
+  if (trophyCount < 400) { league = 'Sem Liga'; playerLevel = 1; }
+  else if (trophyCount < 900) { league = 'Liga Paia'; playerLevel = 3; }
+  else if (trophyCount < 1200) { league = 'Rebelde'; playerLevel = 5; }
+  else if (trophyCount < 1700) { league = 'Candidato'; playerLevel = 7; }
+  else if (trophyCount < 2000) { league = 'Patrão'; playerLevel = 9; }
+  else if (trophyCount < 2600) { league = 'Soberana'; playerLevel = 11; }
+  else if (trophyCount < 3000) { league = 'Estrelar'; playerLevel = 13; }
+  else if (trophyCount < 3300) { league = 'Liga Maior Campeão'; playerLevel = 15; }
+  else { league = 'Celeste'; playerLevel = 17; }
+  
+  leagueInfoElement.textContent = `Liga: ${league} (Nível ${playerLevel})`;
+}
+
+window.addEventListener('load', () => {
+  const loadingScreen = document.getElementById('loadingScreen');
+  loadingScreen.style.opacity = '1';
+  
+  setTimeout(() => {
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+    }, 500);
+  }, 2000);
+  
+  loadGameState();
+  updateMoneyCount();
+  setInterval(updateChestDisplay, 60000); // Update chest display every minute
+});
+
+document.getElementById('startGame').addEventListener('click', () => {
+  lobby.style.display = 'none';
+  canvas.style.display = 'block';
+  document.getElementById('healthBar').style.display = 'block';
+  resetGame();
+  gameInProgress = true;
+  gameStartTime = Date.now();
+  startSpawning();
+  gameLoop();
+  startGame();
+});
+
+updateTrophyCount();
+updateLeague();</script>
+<script>
+document.getElementById('startGame').addEventListener('click', function(event) {
+  event.preventDefault();
+  const loadingMatch = document.createElement('div');
+  loadingMatch.id = 'matchLoadingScreen';
+  loadingMatch.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 99999;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  `;
+  loadingMatch.innerHTML = "<div style='margin-bottom: 20px;'>🎯 Buscando partida...</div><div class='loader' style='border: 5px solid #f3f3f3; border-top: 5px solid #16213e; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;'></div>";
+  document.body.appendChild(loadingMatch);
+
+  setTimeout(() => {
+    loadingMatch.remove();
+    startGame(); // chama a função original que inicia o jogo
+  }, 4000);
+});
+</script>
+
+</body></html>
